@@ -1,9 +1,12 @@
 import express from 'express';
-import bodyParser from 'bodyParser';
+import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
 // TODO: import models and routes
+import { DB_Init } from './app/services/games';
+import { getGame, postGame} from './app/routes/game';
+DB_Init();
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -27,6 +30,11 @@ app.use((req, res, next) => {
 })
 
 // TODO: bind routes
+app.route('/games')
+  .post(postGame)
+
+app.route('/games/:id')
+  .get(getGame)
 
 // send all the other request to home page
 app.route("*").get((req, res) => {

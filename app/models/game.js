@@ -2,14 +2,26 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 // Schema definition
-const gameSchema = new Schema(
+const gameSchema = {
+  AttributeDefinitions: [
     {
-    	name: String,
-    	year: Number,
-    	description: String,
-    	picture: String,
-    	postDate: { type: Date, default: Date.now }
+      AttributeName: "name", 
+      AttributeType: "S"
     }
-);
+  ], 
+  KeySchema: [
+    {
+      AttributeName: "name", 
+      KeyType: "HASH"
+    }
+  ], 
+  ProvisionedThroughput: {
+    ReadCapacityUnits: 5, 
+    WriteCapacityUnits: 5
+  }, 
+  TableName: "Games"
+};
 
-export default mongoose.model('Game', gameSchema);
+export { gameSchema };
+
+
